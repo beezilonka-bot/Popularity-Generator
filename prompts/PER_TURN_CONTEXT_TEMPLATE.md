@@ -1,72 +1,37 @@
 # PER-TURN CONTEXT TEMPLATE
 
-This template defines the context package that the runtime must construct for **every** model invocation.
+The runtime constructs this package for every model invocation.
 
-## Required Package
+## Required package
 
-```text
-=== MODEL_PRESET ===
-<exact contents of prompts/MODEL_PRESET.md>
+MODEL_PRESET
+FRESH_PROJECT_CONTEXT
+LONG_MEMORY
+RELEVANT_WORLD_BOOK
+CURRENT_TASK
 
-=== FRESH_PROJECT_CONTEXT ===
-Project: <from PROJECT_STATE.md>
-Version: <current version>
-Active Stage: <active stage ID and name>
-Active Loop: <active loop ID and name>
-Current Status: <current status>
-In Progress: <current in-progress items>
-Relevant Modules: <resolved module IDs>
-Relevant Decisions: <resolved ADR IDs>
-Relevant Release History: <resolved release record(s)>
-Current Constraints: <documented constraints relevant to this task>
-Next Documented Action: <next action from current state>
-
-=== RELEVANT_WORLD_BOOK ===
-Activation Trace: <entry IDs + matched triggers + selection reasons>
-Selected Entries: <minimal entry contents>
-Resolved Skills: <skill IDs only unless full text is required>
-Resolved Resources: <resource IDs/links>
-Budget: <used>/<configured token budget>
-
-=== CURRENT_TASK ===
-<current user/task input>
-```
-
-## Construction Rules
+## Construction rules
 
 - The preset is always included verbatim.
-- Project context is refreshed for every turn.
-- World Book resolution is performed for every turn.
-- Only task-relevant records should be included beyond the core state/registry.
-- Do not carry forward stale dynamic context from a previous turn.
-- If no World Book entry matches, write `NONE`.
-- If a field cannot be established from repository records, write `UNKNOWN`.
+- Project context is refreshed every turn.
+- Long Memory is queried independently and only explicitly relevant memories are selected.
+- World Book is queried independently with scope, conditions, bounded recursion, ranking, and budget.
+- Skills are resolved by ID and expanded only when required.
+- Resources are pointers unless execution requires their contents.
+- Retrieval and placement are separate concerns.
+- Final Prompt Assembly enforces the global context budget.
+- If no dynamic entry matches, use NONE.
+- If a value cannot be established from repository records, use UNKNOWN.
 - Do not invent missing values.
 
-## World Book Resolution Order
+## Resolution pipeline
 
-1. Exact keywords and aliases.
-2. Optional regex rules.
-3. Optional filters and exclusions.
-4. Priority/specificity ranking.
-5. Deduplication.
-6. Bounded recursive activation.
-7. Token-budget enforcement.
-8. Final trace and injection.
+sources → candidates → filters → recursion → ranking → local budgets → skill/resource resolution → global budget → placement → prompt
 
-## Minimum Recovery Snapshot
+## Canonical order
 
-At minimum, every turn must contain:
-- project identity,
-- current version,
-- active stage,
-- active loop,
-- current status,
-- in-progress work,
-- relevant IDs,
-- documented constraints,
-- next documented action.
+MODEL_PRESET → FRESH_PROJECT_CONTEXT → LONG_MEMORY → RELEVANT_WORLD_BOOK → CURRENT_TASK
 
-## Runtime Requirement
+## Runtime requirement
 
-The eventual model adapter/middleware must construct this package before each model request. Loading it once at application startup is insufficient.
+The model adapter/middleware must construct this package before every model request. Loading it once at application startup is insufficient.
