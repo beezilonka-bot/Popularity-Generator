@@ -40,6 +40,7 @@ entries:
     path: entries/WB-X-004.md
     keys: [研究, 检索, research, github, 资料]
     aliases: [找资料, 开源仓库, source]
+    resources: [RES-WI-001, RES-WI-002]
     priority: 50
     enabled: true
 
