@@ -1,7 +1,7 @@
 """Build and assemble the deterministic per-turn context package."""
 
 from pathlib import Path
-from typing import Dict
+from typing import Dict, Iterable
 
 import yaml
 
@@ -21,6 +21,8 @@ def build_context(
     current_task: str,
     project_context: str,
     model_preset: str,
+    recent_context: Iterable[str] | None = None,
+    scan_depth: int | None = None,
 ) -> Dict[str, object]:
     root = Path(project_root)
     project = _load_yaml(root / "project.yaml")
@@ -29,11 +31,27 @@ def build_context(
 
     wb_defaults = wb_registry.get("defaults", {})
     mem_defaults = memory_registry.get("defaults", {})
-    policy = project.get("context", {}).get("retrieval_policy", {})
+    context_policy = project.get("context", {})
+    policy = context_policy.get("retrieval_policy", {})
+    routing = wb_registry.get("routing", {})
+    scan_fields = routing.get("scan_fields", ["CURRENT_TASK"])
+    configured_depth = int(routing.get("scan_depth", 3))
+    effective_depth = configured_depth if scan_depth is None else max(0, int(scan_depth))
+
+    recent_items = list(recent_context or [])
+    scan_parts = []
+    if "CURRENT_TASK" in scan_fields:
+        scan_parts.append(current_task)
+    if "FRESH_PROJECT_CONTEXT" in scan_fields:
+        scan_parts.append(project_context)
+    if "RECENT_CONTEXT" in scan_fields and effective_depth:
+        scan_parts.extend(recent_items[-effective_depth:])
+    scan_text = "\n".join(part for part in scan_parts if part)
 
     resolved = resolve_worldbook(
         current_task,
         load_entries(root / "worldbook" / "registry.yaml"),
+        scan_text=scan_text,
         max_entries=int(policy.get("max_worldbook_entries", wb_defaults.get("max_entries", 8))),
         token_budget=int(policy.get("worldbook_token_budget", wb_defaults.get("token_budget", 1800))),
         max_recursive_depth=int(wb_defaults.get("max_recursive_depth", 2)),
