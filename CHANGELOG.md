@@ -12,6 +12,12 @@ All notable project changes are recorded here. Detailed release records live und
 
 ### Added
 - ADR-005 — Model Operating Preset as a Turn-Level Operating Protocol.
+- PRESET-001 behavioral evaluation suite with 10 machine-readable scenarios.
+- Model adapter protocol, deterministic MockAdapter, and evaluation runner.
+
+### Verification
+- Static AST smoke check passed for the new evaluator/adapter/runner modules.
+- Full repository pytest execution and real-model behavioral evaluation remain pending.
 
 ## [v0.2.0] — 2026-09-27
 
