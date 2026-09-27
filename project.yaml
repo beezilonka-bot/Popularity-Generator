@@ -3,29 +3,32 @@ project:
   name: Popularity-Generator
 
 release:
-  version: 0.1.2
-  schema_version: 1
+  version: 0.2.0
+  schema_version: 2
 
 runtime:
   default_branch: main
   active_stage: STAGE-001
-  active_loop: LOOP-003
+  active_loop: LOOP-004
 
 directories:
   presets: prompts/
   worldbook: worldbook/
   skills: skills/
   resources: resources/
+  memory: memory/
   documentation: docs/
 
 context:
   mandatory:
     - PRESET-001
     - FRESH_PROJECT_CONTEXT
+    - LONG_MEMORY
     - RELEVANT_WORLD_BOOK
     - CURRENT_TASK
 
   resolution_order:
+    - long_memory
     - worldbook
     - skills
     - resources
@@ -35,3 +38,4 @@ context:
     semantic_fallback: false
     max_worldbook_entries: 8
     worldbook_token_budget: 1800
+    max_total_context_tokens: 6000
