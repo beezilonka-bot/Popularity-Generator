@@ -14,10 +14,14 @@ All notable project changes are recorded here. Detailed release records live und
 - ADR-005 — Model Operating Preset as a Turn-Level Operating Protocol.
 - PRESET-001 behavioral evaluation suite with 10 machine-readable scenarios.
 - Model adapter protocol, deterministic MockAdapter, and evaluation runner.
+- OpenAI-compatible runtime adapter using environment-only credentials.
 
 ### Verification
-- Static AST smoke check passed for the new evaluator/adapter/runner modules.
-- Full repository pytest execution and real-model behavioral evaluation remain pending.
+- Static AST smoke checks passed.
+- Full repository pytest execution passed: 20 tests.
+- Authenticated Tierflow model-list request succeeded.
+- Authenticated Tierflow chat-completion smoke request succeeded.
+- Full 10-case real-model behavioral evaluation remains pending.
 
 ## [v0.2.0] — 2026-09-27
 
