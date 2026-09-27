@@ -1,0 +1,8 @@
+version: 1
+presets:
+  PRESET-001:
+    name: Core Model Operating Preset
+    path: MODEL_PRESET.md
+    status: active
+    injection: every_turn
+    role: baseline_operating_rules
