@@ -38,7 +38,14 @@ def test_budget_and_deduplication():
 
 
 def test_scope_blocks_nonmatching_entry():
-    result = resolve_worldbook("写推文", entries(), scope="other")
+    scoped = [entries()[0].__class__(
+        entry_id="SCOPE-ONLY",
+        name="SCOPE-ONLY",
+        keys=["写推文"],
+        scope=["x"],
+        content="scope-only",
+    )]
+    result = resolve_worldbook("写推文", scoped, scope="other")
     assert result.entries == []
 
 
