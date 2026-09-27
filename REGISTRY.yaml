@@ -1,8 +1,15 @@
 project:
+  id: PG
   name: Popularity-Generator
   version: 0.1.2
   active_stage: STAGE-001
   active_loop: LOOP-003
+
+catalogs:
+  presets: prompts/registry.yaml
+  worldbook: worldbook/registry.yaml
+  skills: skills/registry.yaml
+  resources: resources/registry.yaml
 
 stages:
   STAGE-001:
@@ -100,3 +107,7 @@ next_ids:
   module: MOD-012
   loop: LOOP-004
   adr: ADR-004
+  preset: PRESET-002
+  worldbook: WB-X-006
+  skill: SKILL-X-011
+  resource: RES-X-001
