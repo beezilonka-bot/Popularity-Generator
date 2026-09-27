@@ -11,3 +11,6 @@ A restored working context containing current version, stage, loop, module statu
 
 ## Integrity Rule
 Unknown information must remain unknown; the recovery process must not invent missing history.
+
+## Status
+Completed as the repository recovery procedure. Runtime per-turn injection is handled by LOOP-002.
