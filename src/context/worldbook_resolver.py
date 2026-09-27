@@ -1,7 +1,7 @@
-"""Small deterministic World Book resolver.
+"""Deterministic World Book resolver for per-turn context.
 
-Fast path: exact keyword/alias matching.
-No external services, embeddings, or network calls are required.
+The resolver intentionally uses a cheap local path first. It converts
+World Book matches into a minimal set of Skill and Resource references.
 """
 
 import re
@@ -18,31 +18,37 @@ def _norm(value: str) -> str:
 
 
 def _estimate_tokens(text: str) -> int:
-    # Deliberately conservative rough estimate for budgeting.
     return max(1, (len(text) + 3) // 4)
 
 
 def load_registry(path: str | Path) -> Tuple[dict, Path]:
     path = Path(path)
-    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-    return data, path.parent
+    return yaml.safe_load(path.read_text(encoding="utf-8")) or {}, path.parent
 
 
 def load_entries(registry_path: str | Path) -> List[WorldBookEntry]:
     registry, base = load_registry(registry_path)
-    entries = []
-    for item in registry.get("entries", []):
+    entries: List[WorldBookEntry] = []
+    raw_entries = registry.get("entries", [])
+
+    # Current schema is a list. Keep a small compatibility path for the
+    # previous mapping schema so repository migrations do not break runtime.
+    if isinstance(raw_entries, dict):
+        raw_entries = [
+            {"id": key, **value} for key, value in raw_entries.items()
+        ]
+
+    for item in raw_entries:
         if not item.get("enabled", True):
             continue
-        entry_path = base / item["path"]
-        content = entry_path.read_text(encoding="utf-8")
+        content = (base / item["path"]).read_text(encoding="utf-8")
         entries.append(WorldBookEntry(
             entry_id=item["id"],
             name=item.get("name", item["id"]),
-            keys=item.get("keys", []),
-            aliases=item.get("aliases", []),
-            skills=item.get("skills", []),
-            resources=item.get("resources", []),
+            keys=[str(x) for x in item.get("keys", [])],
+            aliases=[str(x) for x in item.get("aliases", [])],
+            skills=[str(x) for x in item.get("skills", [])],
+            resources=[str(x) for x in item.get("resources", [])],
             priority=int(item.get("priority", 0)),
             enabled=True,
             content=content,
@@ -57,23 +63,24 @@ def resolve_worldbook(
     max_entries: int = 8,
     token_budget: int = 1800,
 ) -> ResolvedContext:
+    entry_list = list(entries)
     text = _norm(task)
     candidates: List[Match] = []
 
-    for entry in entries:
-        triggers = list(entry.keys) + list(entry.aliases)
-        for raw in triggers:
-            trigger = _norm(str(raw))
-            if not trigger:
-                continue
-            if trigger in text:
-                candidates.append(Match(
-                    entry_id=entry.entry_id,
-                    trigger=trigger,
-                    score=entry.priority + min(len(trigger), 40),
-                    reason="exact substring match",
-                ))
-                break
+    for entry in entry_list:
+        best_trigger = None
+        for raw in entry.keys + entry.aliases:
+            trigger = _norm(raw)
+            if trigger and trigger in text:
+                if best_trigger is None or len(trigger) > len(best_trigger):
+                    best_trigger = trigger
+        if best_trigger:
+            candidates.append(Match(
+                entry_id=entry.entry_id,
+                trigger=best_trigger,
+                score=entry.priority + min(len(best_trigger), 40),
+                reason="exact substring match",
+            ))
 
     by_id: Dict[str, Match] = {}
     for match in candidates:
@@ -82,11 +89,10 @@ def resolve_worldbook(
             by_id[match.entry_id] = match
 
     ordered = sorted(by_id.values(), key=lambda m: (-m.score, m.entry_id))
+    lookup = {e.entry_id: e for e in entry_list}
     selected: List[WorldBookEntry] = []
     selected_matches: List[Match] = []
     used = 0
-
-    lookup = {e.entry_id: e for e in entries}
     skills: List[str] = []
     resources: List[str] = []
 
@@ -98,8 +104,6 @@ def resolve_worldbook(
         if selected and used + cost > token_budget:
             continue
         if not selected and cost > token_budget:
-            # A single oversized entry is truncated instead of breaking the
-            # whole resolver contract.
             entry = WorldBookEntry(
                 entry_id=entry.entry_id,
                 name=entry.name,
@@ -111,6 +115,7 @@ def resolve_worldbook(
                 content=entry.content[: token_budget * 4],
             )
             cost = token_budget
+
         selected.append(entry)
         selected_matches.append(match)
         used += cost
