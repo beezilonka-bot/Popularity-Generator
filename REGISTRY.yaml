@@ -1,0 +1,76 @@
+project:
+  name: Popularity-Generator
+  version: 0.1.0
+  active_stage: STAGE-001
+  active_loop: LOOP-001
+
+stages:
+  STAGE-001:
+    name: Persistent Project Memory & Context Recovery
+    status: active
+    introduced: v0.1.0
+
+modules:
+  MOD-001:
+    name: Project Identity
+    stage: STAGE-001
+    status: completed
+    introduced: v0.1.0
+  MOD-002:
+    name: Version Management
+    stage: STAGE-001
+    status: completed
+    introduced: v0.1.0
+  MOD-003:
+    name: Stage Management
+    stage: STAGE-001
+    status: completed
+    introduced: v0.1.0
+  MOD-004:
+    name: Module Registry
+    stage: STAGE-001
+    status: completed
+    introduced: v0.1.0
+  MOD-005:
+    name: Loop Registry
+    stage: STAGE-001
+    status: completed
+    introduced: v0.1.0
+  MOD-006:
+    name: Persistent Project State
+    stage: STAGE-001
+    status: completed
+    introduced: v0.1.0
+  MOD-007:
+    name: Context Recovery Protocol
+    stage: STAGE-001
+    status: completed
+    introduced: v0.1.0
+  MOD-008:
+    name: Changelog System
+    stage: STAGE-001
+    status: completed
+    introduced: v0.1.0
+  MOD-009:
+    name: Architecture Decision Records
+    stage: STAGE-001
+    status: completed
+    introduced: v0.1.0
+
+loops:
+  LOOP-001:
+    name: Project Context Recovery
+    stage: STAGE-001
+    status: active
+    modules: [MOD-001, MOD-003, MOD-004, MOD-006, MOD-007, MOD-008, MOD-009]
+
+releases:
+  v0.1.0:
+    stage: STAGE-001
+    status: current
+
+next_ids:
+  stage: STAGE-002
+  module: MOD-010
+  loop: LOOP-002
+  adr: ADR-001
