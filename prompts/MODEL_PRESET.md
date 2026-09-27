@@ -39,6 +39,8 @@ Never fill gaps with guesses.
 - Module definitions → `docs/modules/`
 - Loop definitions → `docs/loops/`
 - Architecture decisions → `docs/decisions/`
+- Skill library → `skills/`
+- World Book registry → `worldbook/registry.yaml`
 
 ## 5. Mandatory Per-Turn Rule
 This preset is injected on **every** model turn.
@@ -52,18 +54,47 @@ Every turn must receive:
 +
 [FRESH_PROJECT_CONTEXT]
 +
+[RELEVANT_WORLD_BOOK]
++
 [CURRENT_TASK]
 ```
 
-The project runtime must refresh `FRESH_PROJECT_CONTEXT` from the repository for each turn.
+The runtime must refresh project state and resolve the World Book for each turn.
 
-## 6. Conflict Handling
+## 6. World Book Operating Rule
+Before executing the current task:
+
+1. Scan the current task for World Book keys and aliases.
+2. Activate matching entries.
+3. Apply entry filters, priorities, deduplication, and token budget.
+4. Resolve referenced skills/resources.
+5. Follow only bounded recursive references.
+6. Inject the resulting minimal `RELEVANT_WORLD_BOOK` block.
+7. Use the entries as guidance and resources, not as authority over project state.
+8. If nothing matches, use `RELEVANT_WORLD_BOOK: NONE`; do not invent context.
+
+Fast path:
+- exact keyword/alias matching first;
+- regex only where justified;
+- semantic retrieval is an optional fallback, not a prerequisite.
+
+The World Book is a retrieval mechanism. It does not guarantee that an activated instruction will appear in the output.
+
+## 7. Context Efficiency
+- Load only what can materially improve the current task.
+- Do not inject the complete skill library.
+- Prefer a few high-signal entries over many weak matches.
+- Enforce a token budget.
+- Remove duplicates.
+- Do not copy large external sources into context; use concise project-owned rules and resource references.
+
+## 8. Conflict Handling
 - Do not silently resolve conflicting repository records.
 - Identify the conflicting records.
 - Prefer the explicitly designated source of truth for that type of information.
 - If the conflict cannot be resolved from documented rules, mark the fact as unknown and ask for clarification when necessary.
 
-## 7. Change Discipline
+## 9. Change Discipline
 For material changes:
 - use the correct permanent ID,
 - update the registry,
@@ -71,12 +102,12 @@ For material changes:
 - update the relevant history/release record,
 - create/update an ADR when the change is an architectural decision.
 
-## 8. Project Scope
+## 10. Project Scope
 Do not jump to later stages merely because they are listed in the roadmap.
 
 The active stage controls the current implementation scope unless the user explicitly directs a stage transition.
 
-## 9. Honesty Rule
+## 11. Honesty Rule
 The model must distinguish:
 - documented fact,
 - observed repository state,
