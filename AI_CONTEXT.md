@@ -35,3 +35,39 @@ Any completed stage, module, loop, release, or architecture decision must update
 
 ## Current Recovery Target
 See PROJECT_STATE.md, then follow LOOP-002 when constructing a model turn.
+
+
+## System Catalog Recovery
+
+After reading `PROJECT_STATE.md` and `REGISTRY.yaml`, resolve the active runtime catalogs:
+
+- Project identity/settings → `project.yaml`
+- Model presets → `prompts/registry.yaml`
+- Dynamic routing → `worldbook/registry.yaml`
+- Reusable methods → `skills/registry.yaml`
+- Supporting resources → `resources/registry.yaml`
+- Architecture map → `ARCHITECTURE.md` and `docs/SYSTEM_MAP.md`
+
+Do not load the full catalogs into the model prompt. Use the registries as indexes and retrieve only records relevant to the current task.
+
+## Stable ID Policy
+
+- Project ID is `PG`.
+- Release version uses semantic versioning: `vMAJOR.MINOR.PATCH`.
+- Presets, World Book entries, Skills, and Resources use permanent IDs.
+- IDs are never reused.
+- Updating the text of an existing item does not create a new ID.
+- Create a new project release only when project behavior/architecture changes materially.
+
+## Context Layering
+
+Always-on:
+`PRESET + minimal PROJECT_STATE`
+
+Triggered:
+`WORLD_BOOK → SKILLS + RESOURCE POINTERS`
+
+On-demand:
+large resources fetched only when execution requires them.
+
+This layering is mandatory for context efficiency.
