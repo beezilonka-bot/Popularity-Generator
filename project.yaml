@@ -39,3 +39,4 @@ context:
     max_worldbook_entries: 8
     worldbook_token_budget: 1800
     max_total_context_tokens: 6000
+    scan_depth: 3
