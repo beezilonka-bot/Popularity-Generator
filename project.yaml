@@ -1,0 +1,37 @@
+project:
+  id: PG
+  name: Popularity-Generator
+
+release:
+  version: 0.1.2
+  schema_version: 1
+
+runtime:
+  default_branch: main
+  active_stage: STAGE-001
+  active_loop: LOOP-003
+
+directories:
+  presets: prompts/
+  worldbook: worldbook/
+  skills: skills/
+  resources: resources/
+  documentation: docs/
+
+context:
+  mandatory:
+    - PRESET-001
+    - FRESH_PROJECT_CONTEXT
+    - RELEVANT_WORLD_BOOK
+    - CURRENT_TASK
+
+  resolution_order:
+    - worldbook
+    - skills
+    - resources
+
+  retrieval_policy:
+    deterministic_first: true
+    semantic_fallback: false
+    max_worldbook_entries: 8
+    worldbook_token_budget: 1800
