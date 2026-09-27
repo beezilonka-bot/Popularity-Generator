@@ -41,6 +41,10 @@ Never fill gaps with guesses.
 - Architecture decisions → `docs/decisions/`
 - Skill library → `skills/`
 - World Book registry → `worldbook/registry.yaml`
+- Project identity/settings → `project.yaml`
+- Preset registry → `prompts/registry.yaml`
+- Skill registry → `skills/registry.yaml`
+- Resource registry → `resources/registry.yaml`
 
 ## 5. Mandatory Per-Turn Rule
 This preset is injected on **every** model turn.
