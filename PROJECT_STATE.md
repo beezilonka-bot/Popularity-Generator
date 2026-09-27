@@ -15,7 +15,7 @@ STAGE-001 — Persistent Project Memory & Context Recovery
 LOOP-003 — World Book Task-to-Context Resolution
 
 ## Status
-Memory governance, mandatory per-turn injection, and the first World Book routing layer are defined. The runtime context builder/middleware is the remaining implementation point: it must resolve relevant World Book entries before each model request.
+Memory governance, mandatory per-turn injection, World Book routing, and the core catalog structure are defined. The runtime context builder/middleware is the remaining implementation point: it must resolve relevant World Book entries, Skills, and Resource pointers before each model request.
 
 ## Completed
 - Repository created.
@@ -28,6 +28,10 @@ Memory governance, mandatory per-turn injection, and the first World Book routin
 - LOOP-003 World Book task-to-context resolution defined.
 - Initial X-focused World Book registry and entries created.
 - ADR-003 recorded for keyword-routed adaptive context.
+- Project ID and semantic release-version scheme defined.
+- Separate registries defined for Presets, World Book, Skills, and Resources.
+- Architecture map and three-layer context model defined.
+- Duplicate World Book resource catalog removed; World Book now references the canonical resource registry.
 
 ## In Progress
 - Implement the runtime context builder/middleware.
