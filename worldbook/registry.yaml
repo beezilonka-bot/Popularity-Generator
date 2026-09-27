@@ -72,6 +72,7 @@ entries:
 
 routing:
   direct_task_scan: true
-  scan_fields: [CURRENT_TASK, FRESH_PROJECT_CONTEXT]
+  scan_fields: [CURRENT_TASK, FRESH_PROJECT_CONTEXT, RECENT_CONTEXT]
+  scan_depth: 3
   recursive_activation: true
   trace_required: true
