@@ -1,8 +1,8 @@
 project:
   name: Popularity-Generator
-  version: 0.1.1
+  version: 0.1.2
   active_stage: STAGE-001
-  active_loop: LOOP-002
+  active_loop: LOOP-003
 
 stages:
   STAGE-001:
@@ -61,6 +61,11 @@ modules:
     stage: STAGE-001
     status: active
     introduced: v0.1.1
+  MOD-011:
+    name: World Book Retrieval & Context Injection
+    stage: STAGE-001
+    status: active
+    introduced: v0.1.2
 
 loops:
   LOOP-001:
@@ -73,6 +78,11 @@ loops:
     stage: STAGE-001
     status: active
     modules: [MOD-006, MOD-007, MOD-010]
+  LOOP-003:
+    name: World Book Task-to-Context Resolution
+    stage: STAGE-001
+    status: active
+    modules: [MOD-010, MOD-011]
 
 releases:
   v0.1.0:
@@ -80,10 +90,13 @@ releases:
     status: superseded
   v0.1.1:
     stage: STAGE-001
+    status: superseded
+  v0.1.2:
+    stage: STAGE-001
     status: current
 
 next_ids:
   stage: STAGE-002
-  module: MOD-011
-  loop: LOOP-003
-  adr: ADR-003
+  module: MOD-012
+  loop: LOOP-004
+  adr: ADR-004
