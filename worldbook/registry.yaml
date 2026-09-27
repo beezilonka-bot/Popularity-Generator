@@ -1,4 +1,4 @@
-version: 0.1
+version: 0.2
 status: active
 
 defaults:
@@ -11,44 +11,49 @@ defaults:
   semantic_fallback: false
 
 entries:
-  WB-X-001:
+  - id: WB-X-001
     type: skill
     path: entries/WB-X-001.md
     keys: [写推文, 推文, x帖子, tweet, post]
     aliases: [发推, X文案, X内容]
+    skills: [SKILL-X-001, SKILL-X-002, SKILL-X-008, SKILL-X-009]
     priority: 80
     enabled: true
 
-  WB-X-002:
+  - id: WB-X-002
     type: skill
     path: entries/WB-X-002.md
     keys: [线程, thread, 串文]
     aliases: [thread writing, 推文线程]
+    skills: [SKILL-X-003, SKILL-X-008, SKILL-X-009]
     priority: 80
     enabled: true
 
-  WB-X-003:
+  - id: WB-X-003
     type: style
     path: entries/WB-X-003.md
     keys: [文风, 风格, style, voice]
     aliases: [写作风格, 语气, tone]
+    skills: [SKILL-X-004]
     priority: 60
     enabled: true
 
-  WB-X-004:
+  - id: WB-X-004
     type: resource
     path: entries/WB-X-004.md
     keys: [研究, 检索, research, github, 资料]
     aliases: [找资料, 开源仓库, source]
+    skills: [SKILL-X-007, SKILL-X-005]
     resources: [RES-WI-001, RES-WI-002]
     priority: 50
     enabled: true
 
-  WB-X-005:
+  - id: WB-X-005
     type: constraint
     path: entries/WB-X-005.md
     keys: [事实核查, 数据, 引用, fact check]
     aliases: [真实性, 来源, 证据]
+    skills: [SKILL-X-005, SKILL-X-009]
     priority: 100
     enabled: true
 
