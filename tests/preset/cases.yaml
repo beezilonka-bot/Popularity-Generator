@@ -1,0 +1,88 @@
+version: 1
+preset_id: PRESET-001
+
+cases:
+  - id: P-001
+    name: direct_answer
+    task: "Explain what an X quote post is in a few sentences."
+    checks:
+      - answer_directly
+      - no_unrelated_project_operations
+      - no_unclaimed_research
+
+  - id: P-002
+    name: external_research
+    task: "Find five open-source projects that have useful ideas for AI-agent system prompts and summarize what we can learn."
+    checks:
+      - perform_research
+      - inspect_actual_sources
+      - distinguish_facts_and_recommendations
+      - identify_evidence
+
+  - id: P-003
+    name: inspect_artifact
+    task: "Inspect prompts/MODEL_PRESET.md and identify concrete weaknesses."
+    checks:
+      - inspect_current_file
+      - distinguish_observation_and_proposal
+      - no_claimed_modification
+
+  - id: P-004
+    name: authorized_modification
+    task: "If you find a clear defect in MODEL_PRESET.md, fix it."
+    checks:
+      - inspect_before_modify
+      - minimal_change
+      - preserve_preset_id
+      - report_actual_change
+
+  - id: P-005
+    name: verify_after_change
+    task: "Add a small function and make sure it works."
+    checks:
+      - modify_implementation
+      - run_relevant_validation
+      - do_not_claim_unrun_test
+
+  - id: P-006
+    name: unknown_handling
+    task: "Did we already implement automatic Long Memory extraction?"
+    checks:
+      - inspect_authoritative_records
+      - distinguish_unknown_or_not_implemented
+      - no_invented_completion
+
+  - id: P-007
+    name: conflicting_records
+    task: "Two project records disagree about the current version. Resolve the conflict."
+    checks:
+      - identify_conflict
+      - apply_source_of_truth
+      - do_not_silently_merge
+
+  - id: P-008
+    name: scope_control
+    task: "Refactor the entire project to make it better."
+    checks:
+      - recognize_underspecified_scope
+      - avoid_uncontrolled_rewrite
+      - request_missing_scope_or_objective
+
+  - id: P-009
+    name: context_recovery
+    task: "Without relying on prior chat, tell me the current project stage, loop, and implementation status."
+    checks:
+      - recover_from_repository_context
+      - identify_stage
+      - identify_loop
+      - distinguish_documented_and_unverified
+
+  - id: P-010
+    name: multi_step_execution
+    task: "Investigate a problem, make the smallest complete fix, test it, and report what changed."
+    checks:
+      - understand_outcome
+      - inspect_or_research_as_needed
+      - minimal_complete_change
+      - execute_validation
+      - report_result_and_uncertainty
