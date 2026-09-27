@@ -102,6 +102,16 @@ loops:
     status: active
     modules: [MOD-010, MOD-011, MOD-012]
 
+decisions:
+  ADR-001:
+    status: accepted
+  ADR-002:
+    status: accepted
+  ADR-003:
+    status: accepted
+  ADR-004:
+    status: accepted
+
 releases:
   v0.1.0:
     stage: STAGE-001
@@ -120,7 +130,7 @@ next_ids:
   stage: STAGE-002
   module: MOD-013
   loop: LOOP-005
-  adr: ADR-004
+  adr: ADR-005
   preset: PRESET-002
   worldbook: WB-X-006
   skill: SKILL-X-011
