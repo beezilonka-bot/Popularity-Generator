@@ -1,73 +1,54 @@
 # AI Context Recovery
 
-> This file is the canonical entry point for recovering project context after conversation truncation, session changes, or model changes.
+This is the canonical recovery entry point after conversation truncation, session changes, or model changes.
 
-## Recovery Protocol
+## Recovery protocol
+
 1. Read PROJECT_STATE.md.
 2. Read REGISTRY.yaml.
-3. Identify the active STAGE, active LOOP, and in-progress MODs.
-4. Read the active STAGE document and only the referenced module/loop documents needed for the current task.
-5. Read the latest relevant release log and ADRs referenced by the active module.
-6. Do not infer missing history. If the repository does not document a fact, mark it as unknown.
+3. Identify the active STAGE, LOOP, and in-progress MODs.
+4. Read only the relevant stage/module/loop documents.
+5. Read relevant release records and ADRs.
+6. Never infer undocumented history.
 
-## Mandatory Per-Turn Injection
-The model preset at prompts/MODEL_PRESET.md MUST be injected on every model turn.
+## Mandatory per-turn contract
 
-Every turn MUST also receive a fresh project-context snapshot built from the authoritative repository records. A previous turn's snapshot is stale and does not satisfy this requirement.
+Every model turn receives:
 
-Required order:
+MODEL_PRESET → FRESH_PROJECT_CONTEXT → LONG_MEMORY → RELEVANT_WORLD_BOOK → CURRENT_TASK
 
-MODEL_PRESET → FRESH_PROJECT_CONTEXT → CURRENT_TASK
+The preset is injected every turn. Dynamic context is rebuilt every turn; previous dynamic context is stale.
 
-## Source-of-Truth Rules
+## Source of truth
+
 - Current state: PROJECT_STATE.md
 - Entity index: REGISTRY.yaml
-- Historical changes: CHANGELOG.md and docs/releases/
-- Stage scope: docs/stages/
-- Module definitions: docs/modules/
-- Loop definitions: docs/loops/
-- Architecture decisions: docs/decisions/
-- Model operating rules: prompts/MODEL_PRESET.md
-- Per-turn package contract: prompts/PER_TURN_CONTEXT_TEMPLATE.md
+- Project/runtime settings: project.yaml
+- Presets: prompts/
+- World Book: worldbook/
+- Long Memory: memory/
+- Skills: skills/
+- Resources: resources/
+- History: CHANGELOG.md and docs/releases/
+- Architecture rationale: docs/decisions/
 
-## Update Rule
-Any completed stage, module, loop, release, or architecture decision must update the relevant state/index/log records in the same change set.
+Registries are indexes. Do not load entire catalogs into the prompt.
 
-## Current Recovery Target
-See PROJECT_STATE.md, then follow LOOP-002 when constructing a model turn.
-
-
-## System Catalog Recovery
-
-After reading `PROJECT_STATE.md` and `REGISTRY.yaml`, resolve the active runtime catalogs:
-
-- Project identity/settings → `project.yaml`
-- Model presets → `prompts/registry.yaml`
-- Dynamic routing → `worldbook/registry.yaml`
-- Reusable methods → `skills/registry.yaml`
-- Supporting resources → `resources/registry.yaml`
-- Architecture map → `ARCHITECTURE.md` and `docs/SYSTEM_MAP.md`
-
-Do not load the full catalogs into the model prompt. Use the registries as indexes and retrieve only records relevant to the current task.
-
-## Stable ID Policy
-
-- Project ID is `PG`.
-- Release version uses semantic versioning: `vMAJOR.MINOR.PATCH`.
-- Presets, World Book entries, Skills, and Resources use permanent IDs.
-- IDs are never reused.
-- Updating the text of an existing item does not create a new ID.
-- Create a new project release only when project behavior/architecture changes materially.
-
-## Context Layering
+## Context layering
 
 Always-on:
-`PRESET + minimal PROJECT_STATE`
+- model preset
+- minimal project state
 
 Triggered:
-`WORLD_BOOK → SKILLS + RESOURCE POINTERS`
+- relevant Long Memory
+- relevant World Book
+- relevant Skill IDs
+- Resource pointers
 
 On-demand:
-large resources fetched only when execution requires them.
+- large resource contents and external material only when execution requires them.
 
-This layering is mandatory for context efficiency.
+## Current recovery target
+
+Read PROJECT_STATE.md and follow the active LOOP. For v0.2.0 the active loop is LOOP-004 — Context Retrieval & Prompt Assembly.
