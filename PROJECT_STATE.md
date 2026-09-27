@@ -6,16 +6,16 @@
 - Default branch: main
 
 ## Current Version
-v0.1.1
+v0.1.2
 
 ## Active Stage
 STAGE-001 — Persistent Project Memory & Context Recovery
 
 ## Active Loop
-LOOP-002 — Per-Turn Model Context Injection
+LOOP-003 — World Book Task-to-Context Resolution
 
 ## Status
-Memory governance is established. The mandatory model preset and per-turn context contract are defined. Runtime context-builder/middleware is the current implementation task.
+Memory governance, mandatory per-turn injection, and the first World Book routing layer are defined. The runtime context builder/middleware is the remaining implementation point: it must resolve relevant World Book entries before each model request.
 
 ## Completed
 - Repository created.
@@ -24,10 +24,16 @@ Memory governance is established. The mandatory model preset and per-turn contex
 - Mandatory per-turn model preset defined.
 - Per-turn context package contract defined.
 - ADR-002 recorded for mandatory per-turn injection.
+- MOD-011 World Book retrieval contract defined.
+- LOOP-003 World Book task-to-context resolution defined.
+- Initial X-focused World Book registry and entries created.
+- ADR-003 recorded for keyword-routed adaptive context.
 
 ## In Progress
-- Implement the runtime context builder/middleware that injects the preset and fresh project context on every model turn.
-- Define enforcement so a model request cannot bypass the per-turn context contract.
+- Implement the runtime context builder/middleware.
+- Inject `RELEVANT_WORLD_BOOK` between fresh project context and the current task.
+- Make World Book activation deterministic, budgeted, deduplicated, and traceable.
+- Keep semantic retrieval optional until keyword routing is proven useful.
 
 ## Not Started
 - Popularity analysis engine.
