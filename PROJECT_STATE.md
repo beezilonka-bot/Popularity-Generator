@@ -6,38 +6,32 @@
 - Default branch: main
 
 ## Current Version
-v0.1.2
+v0.2.0
 
 ## Active Stage
 STAGE-001 — Persistent Project Memory & Context Recovery
 
 ## Active Loop
-LOOP-003 — World Book Task-to-Context Resolution
+LOOP-004 — Context Retrieval & Prompt Assembly
 
 ## Status
-Memory governance, mandatory per-turn injection, World Book routing, and the core catalog structure are defined. The runtime context builder/middleware is the remaining implementation point: it must resolve relevant World Book entries, Skills, and Resource pointers before each model request.
+The Context Engine foundation is implemented. Deterministic World Book retrieval now supports scoped matching, conditions, bounded recursion, traceability, and budgeted selection. Long Memory has a separate file-backed source. Prompt assembly includes the new memory layer. Semantic retrieval remains optional and is not enabled.
 
 ## Completed
-- Repository created.
-- Memory/version/stage/module/loop governance defined.
-- Persistent project state and recovery protocol defined.
-- Mandatory per-turn model preset defined.
-- Per-turn context package contract defined.
-- ADR-002 recorded for mandatory per-turn injection.
-- MOD-011 World Book retrieval contract defined.
-- LOOP-003 World Book task-to-context resolution defined.
-- Initial X-focused World Book registry and entries created.
-- ADR-003 recorded for keyword-routed adaptive context.
-- Project ID and semantic release-version scheme defined.
-- Separate registries defined for Presets, World Book, Skills, and Resources.
-- Architecture map and three-layer context model defined.
-- Duplicate World Book resource catalog removed; World Book now references the canonical resource registry.
+- Repository and persistent memory/version/stage/module/loop governance.
+- Mandatory per-turn model preset and fresh project-context contract.
+- Project/Preset/World Book/Skill/Resource registries.
+- Deterministic World Book routing.
+- Context Engine candidate/ranking/budget primitives.
+- Long Memory source boundary and registry.
+- Runtime context builder integration for World Book and Long Memory.
+- Tests covering baseline World Book resolution, scope, budget, deterministic ranking, and memory-source separation.
 
 ## In Progress
-- Implement the runtime context builder/middleware.
-- Inject `RELEVANT_WORLD_BOOK` between fresh project context and the current task.
-- Make World Book activation deterministic, budgeted, deduplicated, and traceable.
-- Keep semantic retrieval optional until keyword routing is proven useful.
+- Run the repository test suite and fix any implementation/schema mismatches.
+- Add full Prompt Assembly ordering and global context-budget enforcement.
+- Add conditions/recursive-activation fixtures and end-to-end context-builder tests.
+- Decide when semantic retrieval is justified by measured keyword recall gaps.
 
 ## Not Started
 - Popularity analysis engine.
