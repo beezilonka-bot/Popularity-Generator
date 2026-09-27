@@ -8,16 +8,17 @@ Compose a deterministic, minimal context package for every model invocation.
 
 1. Load the mandatory preset.
 2. Refresh authoritative project context.
-3. Retrieve Long Memory candidates.
-4. Retrieve World Book candidates.
-5. Apply scope and conditions.
-6. Apply bounded recursive expansion.
-7. Rank and budget candidates.
-8. Resolve Skill and Resource references.
-9. Apply placement.
-10. Enforce the global context budget.
-11. Emit the canonical section order.
-12. Record activation/omission trace.
+3. Build the World Book scan window from configured fields and bounded recent context.
+4. Retrieve Long Memory candidates.
+5. Retrieve World Book candidates.
+6. Apply scope and conditions.
+7. Apply bounded recursive expansion.
+8. Rank and budget candidates.
+9. Resolve Skill and Resource references.
+10. Apply placement.
+11. Enforce the global context budget.
+12. Emit the canonical section order.
+13. Record activation/omission trace.
 
 ## Canonical order
 
