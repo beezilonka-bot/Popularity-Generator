@@ -25,7 +25,6 @@ The World Book never replaces the mandatory preset or authoritative project stat
 
 - `registry.yaml` — machine-readable entry index.
 - `entries/` — standalone entry content.
-- `resources.yaml` — optional resource catalog.
 - `README.md` — operating contract.
 
 ## Entry Rule
