@@ -24,6 +24,7 @@ The source-neutral Context Engine foundation is implemented. World Book supports
 - Final Prompt Assembly integration.
 - Architecture/module/loop/ADR/release records for v0.2.0.
 - Tests added for ranking, budgeting, World Book scope, conditions, recursion, assembly, and end-to-end builder behavior.
+- Refined PRESET-001 as the baseline turn-level operating protocol.
 
 ## In Progress
 - Execute and verify the repository test suite.
