@@ -1,13 +1,14 @@
-version: 0.2
+version: 0.3
 status: active
 
 defaults:
   case_sensitive: false
   match_whole_words: false
   max_recursive_depth: 2
+  max_recursive_steps: 16
   max_entries: 8
   token_budget: 1800
-  allow_regex: true
+  allow_regex: false
   semantic_fallback: false
 
 entries:
@@ -18,6 +19,9 @@ entries:
     aliases: [发推, X文案, X内容]
     skills: [SKILL-X-001, SKILL-X-002, SKILL-X-008, SKILL-X-009]
     priority: 80
+    scope: [global, x]
+    placement: RELEVANT_WORLD_BOOK
+    recursive_activation: true
     enabled: true
 
   - id: WB-X-002
@@ -27,6 +31,8 @@ entries:
     aliases: [thread writing, 推文线程]
     skills: [SKILL-X-003, SKILL-X-008, SKILL-X-009]
     priority: 80
+    scope: [global, x]
+    placement: RELEVANT_WORLD_BOOK
     enabled: true
 
   - id: WB-X-003
@@ -36,6 +42,8 @@ entries:
     aliases: [写作风格, 语气, tone]
     skills: [SKILL-X-004]
     priority: 60
+    scope: [global, x]
+    placement: RELEVANT_WORLD_BOOK
     enabled: true
 
   - id: WB-X-004
@@ -46,6 +54,8 @@ entries:
     skills: [SKILL-X-007, SKILL-X-005]
     resources: [RES-WI-001, RES-WI-002]
     priority: 50
+    scope: [global, x]
+    placement: RELEVANT_WORLD_BOOK
     enabled: true
 
   - id: WB-X-005
@@ -55,10 +65,13 @@ entries:
     aliases: [真实性, 来源, 证据]
     skills: [SKILL-X-005, SKILL-X-009]
     priority: 100
+    scope: [global, x]
+    placement: RELEVANT_WORLD_BOOK
+    required: true
     enabled: true
 
 routing:
   direct_task_scan: true
-  scan_fields: [CURRENT_TASK]
+  scan_fields: [CURRENT_TASK, FRESH_PROJECT_CONTEXT]
   recursive_activation: true
   trace_required: true
