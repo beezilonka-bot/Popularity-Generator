@@ -6,7 +6,7 @@ from typing import Dict
 import yaml
 
 from .assembler import assemble_prompt
-from .engine import Candidate, select_budgeted
+from .engine import select_budgeted
 from .memory import load_memories
 from .worldbook_resolver import load_entries, resolve_worldbook
 
@@ -31,10 +31,9 @@ def build_context(
     mem_defaults = memory_registry.get("defaults", {})
     policy = project.get("context", {}).get("retrieval_policy", {})
 
-    entries = load_entries(root / "worldbook" / "registry.yaml")
     resolved = resolve_worldbook(
         current_task,
-        entries,
+        load_entries(root / "worldbook" / "registry.yaml"),
         max_entries=int(policy.get("max_worldbook_entries", wb_defaults.get("max_entries", 8))),
         token_budget=int(policy.get("worldbook_token_budget", wb_defaults.get("token_budget", 1800))),
         max_recursive_depth=int(wb_defaults.get("max_recursive_depth", 2)),
@@ -42,27 +41,12 @@ def build_context(
         allow_regex=bool(wb_defaults.get("allow_regex", False)),
     )
 
-    memory_candidates = load_memories(root / "memory" / "registry.yaml")
-    triggered_memories = [
-        Candidate(
-            candidate_id=c.candidate_id,
-            source=c.source,
-            content=c.content,
-            priority=c.priority,
-            required=c.required,
-            depth=c.depth,
-            match_type=c.match_type,
-            trigger=c.trigger,
-            reason="explicit memory trigger",
-            skills=c.skills,
-            resources=c.resources,
-            placement=c.placement,
-        )
-        for c in memory_candidates
-        if c.trigger is not None and c.trigger.lower() in current_task.lower()
-    ]
+    memory_candidates = load_memories(
+        root / "memory" / "registry.yaml",
+        task=current_task,
+    )
     memory_result = select_budgeted(
-        triggered_memories,
+        memory_candidates,
         max_items=int(mem_defaults.get("max_entries", 4)),
         token_budget=int(mem_defaults.get("token_budget", 800)),
     )
