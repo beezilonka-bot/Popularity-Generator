@@ -15,23 +15,21 @@ STAGE-001 — Persistent Project Memory & Context Recovery
 LOOP-004 — Context Retrieval & Prompt Assembly
 
 ## Status
-The Context Engine foundation is implemented. Deterministic World Book retrieval now supports scoped matching, conditions, bounded recursion, traceability, and budgeted selection. Long Memory has a separate file-backed source. Prompt assembly includes the new memory layer. Semantic retrieval remains optional and is not enabled.
+The source-neutral Context Engine foundation is implemented. World Book supports scoped matching, conditions, bounded recursion, traceability, and budgeted selection. Long Memory is a separate task-triggered source. Final Prompt Assembly enforces canonical ordering and a global context budget.
 
 ## Completed
-- Repository and persistent memory/version/stage/module/loop governance.
-- Mandatory per-turn model preset and fresh project-context contract.
-- Project/Preset/World Book/Skill/Resource registries.
-- Deterministic World Book routing.
 - Context Engine candidate/ranking/budget primitives.
-- Long Memory source boundary and registry.
-- Runtime context builder integration for World Book and Long Memory.
-- Tests covering baseline World Book resolution, scope, budget, deterministic ranking, and memory-source separation.
+- Scoped/conditional/bounded World Book retrieval.
+- Separate Long Memory registry and explicit task-triggered retrieval.
+- Final Prompt Assembly integration.
+- Architecture/module/loop/ADR/release records for v0.2.0.
+- Tests added for ranking, budgeting, World Book scope, conditions, recursion, assembly, and end-to-end builder behavior.
 
 ## In Progress
-- Run the repository test suite and fix any implementation/schema mismatches.
-- Add full Prompt Assembly ordering and global context-budget enforcement.
-- Add conditions/recursive-activation fixtures and end-to-end context-builder tests.
-- Decide when semantic retrieval is justified by measured keyword recall gaps.
+- Execute and verify the repository test suite.
+- Resolve any implementation/schema mismatches found by execution.
+- Evaluate keyword recall before introducing semantic retrieval.
+- Define automatic Long Memory promotion only after the retrieval layer is stable.
 
 ## Not Started
 - Popularity analysis engine.
