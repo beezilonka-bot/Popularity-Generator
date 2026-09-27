@@ -1,0 +1,15 @@
+version: 1
+resources:
+  RES-WI-001:
+    type: documentation
+    title: SillyTavern World Info documentation
+    url: https://github.com/SillyTavern/SillyTavern-Docs/blob/main/Usage/worldinfo.md
+    supports: [worldbook-routing]
+    status: research_reference
+
+  RES-WI-002:
+    type: repository
+    title: DeepLore
+    url: https://github.com/cmkys/sillytavern-DeepLore-Rework
+    supports: [worldbook-retrieval]
+    status: research_reference
