@@ -1,11 +1,12 @@
-"""Assemble the deterministic per-turn context package."""
+"""Build and assemble the deterministic per-turn context package."""
 
 from pathlib import Path
 from typing import Dict
 
 import yaml
 
-from .engine import select_budgeted
+from .assembler import assemble_prompt
+from .engine import Candidate, select_budgeted
 from .memory import load_memories
 from .worldbook_resolver import load_entries, resolve_worldbook
 
@@ -42,13 +43,31 @@ def build_context(
     )
 
     memory_candidates = load_memories(root / "memory" / "registry.yaml")
+    triggered_memories = [
+        Candidate(
+            candidate_id=c.candidate_id,
+            source=c.source,
+            content=c.content,
+            priority=c.priority,
+            required=c.required,
+            depth=c.depth,
+            match_type=c.match_type,
+            trigger=c.trigger,
+            reason="explicit memory trigger",
+            skills=c.skills,
+            resources=c.resources,
+            placement=c.placement,
+        )
+        for c in memory_candidates
+        if c.trigger is not None and c.trigger.lower() in current_task.lower()
+    ]
     memory_result = select_budgeted(
-        memory_candidates,
+        triggered_memories,
         max_items=int(mem_defaults.get("max_entries", 4)),
         token_budget=int(mem_defaults.get("token_budget", 800)),
     )
 
-    return {
+    context = {
         "MODEL_PRESET": model_preset,
         "FRESH_PROJECT_CONTEXT": project_context,
         "LONG_MEMORY": {
@@ -57,6 +76,7 @@ def build_context(
                 for c in memory_result.selected
             ],
             "estimated_tokens": memory_result.estimated_tokens,
+            "omitted": [c.candidate_id for c in memory_result.omitted],
         },
         "RELEVANT_WORLD_BOOK": {
             "activation_trace": [
@@ -86,3 +106,9 @@ def build_context(
         },
         "CURRENT_TASK": current_task,
     }
+
+    context["PROMPT"] = assemble_prompt(
+        context,
+        max_total_tokens=int(policy.get("max_total_context_tokens", 6000)),
+    )
+    return context
