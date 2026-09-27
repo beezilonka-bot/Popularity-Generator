@@ -2,6 +2,17 @@
 
 All notable project changes are recorded here. Detailed release records live under docs/releases/.
 
+## [Unreleased] — 2026-09-27
+
+### Changed
+- Refined `PRESET-001` into a compact turn-level operating protocol.
+- Added an explicit understand → classify → context check → action → execute → verify → persist → respond loop.
+- Clarified source authority, uncertainty handling, research/evidence behavior, completion criteria, and project/code change discipline.
+- Kept World Book, Long Memory, Skills, and Resources outside the baseline preset.
+
+### Added
+- ADR-005 — Model Operating Preset as a Turn-Level Operating Protocol.
+
 ## [v0.2.0] — 2026-09-27
 
 ### Added
