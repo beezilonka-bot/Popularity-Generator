@@ -1,0 +1,46 @@
+version: 1
+
+defaults:
+  status: active
+
+skills:
+  SKILL-X-001:
+    path: x/SKILL-X-001.md
+    name: X Post Fundamentals
+    domain: x
+  SKILL-X-002:
+    path: x/SKILL-X-002.md
+    name: Hook Engineering
+    domain: x
+  SKILL-X-003:
+    path: x/SKILL-X-003.md
+    name: Thread Architecture
+    domain: x
+  SKILL-X-004:
+    path: x/SKILL-X-004.md
+    name: Voice & Anti-AI Writing
+    domain: x
+  SKILL-X-005:
+    path: x/SKILL-X-005.md
+    name: Specificity & Evidence
+    domain: x
+  SKILL-X-006:
+    path: x/SKILL-X-006.md
+    name: Content Pattern Selection
+    domain: x
+  SKILL-X-007:
+    path: x/SKILL-X-007.md
+    name: Research-to-Post
+    domain: x
+  SKILL-X-008:
+    path: x/SKILL-X-008.md
+    name: Editing & Compression
+    domain: x
+  SKILL-X-009:
+    path: x/SKILL-X-009.md
+    name: Quality Gate
+    domain: x
+  SKILL-X-010:
+    path: x/SKILL-X-010.md
+    name: Content Repurposing
+    domain: x
