@@ -1,15 +1,16 @@
 project:
   id: PG
   name: Popularity-Generator
-  version: 0.1.2
+  version: 0.2.0
   active_stage: STAGE-001
-  active_loop: LOOP-003
+  active_loop: LOOP-004
 
 catalogs:
   presets: prompts/registry.yaml
   worldbook: worldbook/registry.yaml
   skills: skills/registry.yaml
   resources: resources/registry.yaml
+  memory: memory/registry.yaml
 
 stages:
   STAGE-001:
@@ -73,6 +74,11 @@ modules:
     stage: STAGE-001
     status: active
     introduced: v0.1.2
+  MOD-012:
+    name: Context Engine & Prompt Assembly
+    stage: STAGE-001
+    status: active
+    introduced: v0.2.0
 
 loops:
   LOOP-001:
@@ -88,8 +94,13 @@ loops:
   LOOP-003:
     name: World Book Task-to-Context Resolution
     stage: STAGE-001
-    status: active
+    status: superseded
     modules: [MOD-010, MOD-011]
+  LOOP-004:
+    name: Context Retrieval & Prompt Assembly
+    stage: STAGE-001
+    status: active
+    modules: [MOD-010, MOD-011, MOD-012]
 
 releases:
   v0.1.0:
@@ -100,12 +111,15 @@ releases:
     status: superseded
   v0.1.2:
     stage: STAGE-001
+    status: superseded
+  v0.2.0:
+    stage: STAGE-001
     status: current
 
 next_ids:
   stage: STAGE-002
-  module: MOD-012
-  loop: LOOP-004
+  module: MOD-013
+  loop: LOOP-005
   adr: ADR-004
   preset: PRESET-002
   worldbook: WB-X-006
