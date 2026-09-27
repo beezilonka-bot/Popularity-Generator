@@ -1,0 +1,9 @@
+version: 1
+status: active
+
+defaults:
+  enabled: true
+  max_entries: 4
+  token_budget: 800
+
+entries: []
