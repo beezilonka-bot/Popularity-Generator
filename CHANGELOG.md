@@ -12,6 +12,11 @@ All notable project changes are recorded here. Detailed release records live und
 - World Book operating rules in the mandatory model preset.
 - World Book section in the per-turn context contract.
 - ADR-003 documenting the keyword-routed adaptive-context architecture.
+- `project.yaml` defining project ID `PG` and release/context settings.
+- `prompts/registry.yaml` defining PRESET-001.
+- `skills/registry.yaml` defining canonical Skill IDs.
+- `resources/registry.yaml` defining canonical Resource IDs and provenance metadata.
+- `ARCHITECTURE.md` and `docs/SYSTEM_MAP.md` defining system boundaries and context layers.
 
 ### Solved
 - Avoids injecting the complete skill library into every model turn.
