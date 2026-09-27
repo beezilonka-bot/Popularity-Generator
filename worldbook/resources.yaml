@@ -1,0 +1,12 @@
+resources:
+  - id: RES-WI-001
+    title: SillyTavern World Info documentation
+    url: https://github.com/SillyTavern/SillyTavern-Docs/blob/main/Usage/worldinfo.md
+    use_for: keyword routing, filters, priority, budget, recursion
+    status: research_reference
+
+  - id: RES-WI-002
+    title: DeepLore
+    url: https://github.com/cmkys/sillytavern-DeepLore-Rework
+    use_for: keyword/fuzzy first pass and semantic candidate selection
+    status: research_reference
