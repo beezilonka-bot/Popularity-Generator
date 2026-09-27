@@ -1,0 +1,58 @@
+version: 0.1
+status: active
+
+defaults:
+  case_sensitive: false
+  match_whole_words: false
+  max_recursive_depth: 2
+  max_entries: 8
+  token_budget: 1800
+  allow_regex: true
+  semantic_fallback: false
+
+entries:
+  WB-X-001:
+    type: skill
+    path: entries/WB-X-001.md
+    keys: [写推文, 推文, x帖子, tweet, post]
+    aliases: [发推, X文案, X内容]
+    priority: 80
+    enabled: true
+
+  WB-X-002:
+    type: skill
+    path: entries/WB-X-002.md
+    keys: [线程, thread, 串文]
+    aliases: [thread writing, 推文线程]
+    priority: 80
+    enabled: true
+
+  WB-X-003:
+    type: style
+    path: entries/WB-X-003.md
+    keys: [文风, 风格, style, voice]
+    aliases: [写作风格, 语气, tone]
+    priority: 60
+    enabled: true
+
+  WB-X-004:
+    type: resource
+    path: entries/WB-X-004.md
+    keys: [研究, 检索, research, github, 资料]
+    aliases: [找资料, 开源仓库, source]
+    priority: 50
+    enabled: true
+
+  WB-X-005:
+    type: constraint
+    path: entries/WB-X-005.md
+    keys: [事实核查, 数据, 引用, fact check]
+    aliases: [真实性, 来源, 证据]
+    priority: 100
+    enabled: true
+
+routing:
+  direct_task_scan: true
+  scan_fields: [CURRENT_TASK]
+  recursive_activation: true
+  trace_required: true
