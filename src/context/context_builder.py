@@ -35,7 +35,7 @@ def build_context(
     policy = context_policy.get("retrieval_policy", {})
     routing = wb_registry.get("routing", {})
     scan_fields = routing.get("scan_fields", ["CURRENT_TASK"])
-    configured_depth = int(routing.get("scan_depth", 3))
+    configured_depth = int(routing.get("scan_depth", policy.get("scan_depth", 3)))
     effective_depth = configured_depth if scan_depth is None else max(0, int(scan_depth))
 
     recent_items = list(recent_context or [])
