@@ -1,8 +1,8 @@
 project:
   name: Popularity-Generator
-  version: 0.1.0
+  version: 0.1.1
   active_stage: STAGE-001
-  active_loop: LOOP-001
+  active_loop: LOOP-002
 
 stages:
   STAGE-001:
@@ -56,21 +56,34 @@ modules:
     stage: STAGE-001
     status: completed
     introduced: v0.1.0
+  MOD-010:
+    name: Model Operating Preset & Per-Turn Context Injection
+    stage: STAGE-001
+    status: active
+    introduced: v0.1.1
 
 loops:
   LOOP-001:
     name: Project Context Recovery
     stage: STAGE-001
-    status: active
+    status: completed
     modules: [MOD-001, MOD-003, MOD-004, MOD-006, MOD-007, MOD-008, MOD-009]
+  LOOP-002:
+    name: Per-Turn Model Context Injection
+    stage: STAGE-001
+    status: active
+    modules: [MOD-006, MOD-007, MOD-010]
 
 releases:
   v0.1.0:
+    stage: STAGE-001
+    status: superseded
+  v0.1.1:
     stage: STAGE-001
     status: current
 
 next_ids:
   stage: STAGE-002
-  module: MOD-010
-  loop: LOOP-002
-  adr: ADR-001
+  module: MOD-011
+  loop: LOOP-003
+  adr: ADR-003
