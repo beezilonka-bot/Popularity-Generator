@@ -1,5 +1,6 @@
 from pathlib import Path
 
+from src.context.types import WorldBookEntry
 from src.context.worldbook_resolver import load_entries, resolve_worldbook
 
 
@@ -38,7 +39,7 @@ def test_budget_and_deduplication():
 
 
 def test_scope_blocks_nonmatching_entry():
-    scoped = [entries()[0].__class__(
+    scoped = [WorldBookEntry(
         entry_id="SCOPE-ONLY",
         name="SCOPE-ONLY",
         keys=["写推文"],
