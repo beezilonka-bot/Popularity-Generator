@@ -27,6 +27,7 @@ The source-neutral Context Engine foundation is implemented. World Book supports
 
 ## In Progress
 - Execute and verify the repository test suite.
+- Validate configured World Book scan fields and bounded recent-context scanning.
 - Resolve any implementation/schema mismatches found by execution.
 - Evaluate keyword recall before introducing semantic retrieval.
 - Define automatic Long Memory promotion only after the retrieval layer is stable.
